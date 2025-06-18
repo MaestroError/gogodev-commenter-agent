@@ -1,61 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Commenter Agent
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based application that demonstrates AI-powered comment analysis and response generation with [LarAgent](https://github.com/maestroerror/laragent) package. This project showcases how to integrate AI agents for sentiment analysis and automated response generation for product reviews.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Sentiment Analysis**: Automatically detects whether a review is positive or negative
+- **AI-Powered Responses**: Generates contextually appropriate responses to reviews
+- **Laravel Integration**: Built on the Laravel framework for robust backend functionality
+- **Custom AI Agents**: Implements specialized agents for different tasks
+- **Example Reviews**: Comes with sample reviews for demonstration purposes
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Before you begin, ensure you have the following installed:
 
-## Learning Laravel
+- PHP 8.2 or higher
+- Composer (PHP package manager)
+- Node.js and npm (for frontend assets)
+- An OpenAI API key or compatible LLM provider
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clone the Repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/yourusername/gogodev-commenter-agent.git
+cd gogodev-commenter-agent
+```
 
-## Laravel Sponsors
+### 2. Install PHP Dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. Install NPM Dependencies
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+npm install
+npm run build
+```
+
+### 4. Configure Environment
+
+Copy the example environment file and generate an application key:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 5. Configure AI Provider
+
+Update your `.env` file with your AI provider credentials. For OpenAI, add:
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
+
+## Usage
+
+### Running the Application
+
+Start the development server:
+
+```bash
+php artisan serve
+```
+
+Visit `http://localhost:8000` in your browser to access the application.
+
+### Review Management
+
+The application comes with sample reviews that you can view and interact with. The main features include:
+
+1. **View Reviews**: See a list of sample reviews
+2. **Analyze Sentiment**: Check the sentiment (positive/negative) of each review
+3. **Generate Responses**: Get AI-generated responses to reviews
+
+### Customizing Reviews
+
+To add or modify reviews, edit the `$comments` array in `app/Http/Controllers/ReviewsController.php`.
+
+## AI Agents
+
+The application includes two main AI agents:
+
+### 1. SentimentChecker
+
+Analyzes the sentiment of a review (positive/negative).
+
+```php
+use App\AiAgents\SentimentChecker;
+// ....
+$response = SentimentChecker::for('sentiment_check')->respond($comment['comment']);
+dd($response['sentiment']); // true/false
+```
+
+### 2. ReplyAgent
+
+Generates responses to reviews based on their sentiment.
+
+```php
+use App\AiAgents\ReplyAgent;
+// ....
+$response = ReplyAgent::for('example')->setReview($comment)->respond();
+// Uses tool with review id and reply to add review to storage (as a txt file)
+```
+
+## Configuration
+
+You can configure the AI models and behavior in `config/laragent.php`:
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced under the [MIT License](LICENSE).
+
+## Support
+
+For support, please open an issue in the GitHub repository.
